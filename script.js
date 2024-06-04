@@ -6,12 +6,16 @@ require([
     "esri/widgets/Locate",
     "esri/widgets/Search",
     "esri/Graphic",
-    "esri/layers/GraphicsLayer"
+    "esri/layers/GraphicsLayer",
     "esri/geometry/Polyline",
     "esri/geometry/Polygon",
+    "esri/layers/FeatureLayer"
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
+
+    const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
 
     // Configure the ArcGIS API key
-    esriConfig.apiKey = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
+    esriConfig.apiKey = token;
 
     // Create a map using Esri's topographic basemap
     const map = new Map({
@@ -177,6 +181,13 @@ require([
     graphicsLayer.add(polygonGraphic);
 
 
+    // Add a feature layer to the map from Living Atlas
+    const bridge_inventory = new FeatureLayer({
+        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/National_Bridge_Inventory_v1/FeatureServer",
+    });
+
+    // Add the feature layer to the map
+    map.add(bridge_inventory);
 
     // Wait for the map view to load
     view.when(function () {
