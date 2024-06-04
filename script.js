@@ -21,7 +21,7 @@ require([
     const view = new MapView({
         map: map,
         center: [-122.6784, 45.5152], // Longitude, latitude of Portland, OR
-        zoom: 11, // Zoom in to Portland City Limits 
+        zoom: 10, // Zoom in to Portland City Limits 
         container: "viewDiv",
         constraints: {
             snapToZoom: false
@@ -70,27 +70,38 @@ require([
     map.add(graphicsLayer);
 
     // Create a point graphic at the Portland Art Museum
-    const first_home = {
+    const st_johns_bridge = {
         type: "point",
-        longitude: -122.6908,
-        latitude: 45.5279
+        longitude: -122.76477,
+        latitude: 45.58508
     };
 
     // Stylize the point graphic
     const simpleMarkerSymbol = {
-        type: "simple-marker",
-        style: "square",
-        color: [230, 207, 167], // dark yellow
-        outline: {
-            color: [255, 255, 255], // White  
-            width: 1
-        }
+        type: "picture-marker",
+        url: "icons8-bridge-64.png",
+        width: "24px", // Adjust size as needed
+        height: "24px"
     };
+
+    // Create a popup template for the point graphic
+    const popupTemplate = {
+        title: "{Name}",
+        content: `<img src="https://insightpestnorthwest.com/wp-content/uploads/2020/08/St-Johns-Bridge.jpg" alt="St. Johns Bridge" style="width:100%;height:auto;" /><br>{Description}`
+    };
+
+    // Create an attributes object for the point graphic
+    const attributes = {
+        Name: "St. Johns Bridge",
+        Description: "An iconic steel suspension bridge spanning the Willamette River in Portland. Completed in 1931, it's known for its Gothic Revival towers and distinctive green color. A beloved landmark and popular spot for walkers and cyclists."
+    }
 
     // Add the style and the geometry to the graphics layer
     const pointGraphic = new Graphic({
-        geometry: first_home,
-        symbol: simpleMarkerSymbol
+        geometry: st_johns_bridge,
+        symbol: simpleMarkerSymbol,
+        attributes: attributes,
+        popupTemplate: popupTemplate
     });
 
     // Add the point graphic to the graphics layer

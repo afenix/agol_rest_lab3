@@ -37,3 +37,10 @@ body,
     width: 250px;
     padding: 10px;
 }
+
+.esri-popup__content-container img {
+    max-width: 100%;
+    /* Make sure the image fits within the popup */
+    height: auto;
+    /* Maintain aspect ratio */
+}
