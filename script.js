@@ -7,7 +7,8 @@ require([
     "esri/widgets/Search",
     "esri/Graphic",
     "esri/layers/GraphicsLayer"
-], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer) {
+    "esri/geometry/Polyline",
+    "esri/geometry/Polygon",
 
     // Configure the ArcGIS API key
     esriConfig.apiKey = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
@@ -106,6 +107,75 @@ require([
 
     // Add the point graphic to the graphics layer
     graphicsLayer.add(pointGraphic);
+
+    // Add a polyline that highlights the Burnside Bridge
+    let paths = [
+        [ // Burnside Bridge Path
+            [-122.67039543081786, 45.52318900563338], // West end of Burnside Bridge
+            [-122.66539491991392, 45.523072223490665]  // East end of Burnside Bridge
+        ]
+    ];
+
+    // Create a polyline geometry for the path
+    const polyline = {
+        type: "polyline",
+        paths: paths
+    };
+
+    // Create a simple line symbol for rendering the polyline
+    const lineSymbol = {
+        type: "simple-line",
+        color: [226, 119, 40], // Orange color
+        width: 4
+    };
+
+    // Create a graphic for the polyline
+    const polylineGraphic = new Graphic({
+        geometry: polyline,
+        symbol: lineSymbol
+    });
+
+    // Add the polyline graphic to the map's graphics layer
+    graphicsLayer.add(polylineGraphic);
+
+    // Define the polygon rings for the Portland City Limits
+    const rings = [
+        [ // first ring
+            [-122.6765, 45.5231], // Vertice 1
+            [-122.6760, 45.5235], // Vertice 2
+            [-122.6755, 45.5230], // Vertice 3
+            [-122.6760, 45.5225], // Vertice 4
+            [-122.6765, 45.5231]  // Closing the ring (same as Vertice 1)
+        ]
+    ];
+
+    // Create the polygon geometry
+    const polygon = new Polygon({
+        hasZ: false,
+        hasM: false,
+        rings: rings,
+        spatialReference: { wkid: 4326 }
+    });
+
+    // Create a simple fill symbol for the polygon
+    const fillSymbol = {
+        type: "simple-fill",
+        color: [227, 139, 79, 0.8], // Orange fill color with transparency
+        outline: {
+            color: [255, 255, 255],
+            width: 1
+        }
+    };
+
+    // Create a graphic for the polygon
+    const polygonGraphic = new Graphic({
+        geometry: polygon,
+        symbol: fillSymbol
+    });
+
+    // Add the polygon graphic to the graphics layer
+    graphicsLayer.add(polygonGraphic);
+
 
 
     // Wait for the map view to load
