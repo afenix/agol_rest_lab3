@@ -1,0 +1,39 @@
+html,
+body,
+#viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#heading {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #0098db;
+}
+
+.header {
+    text-align: center;
+    background: gray;
+    color: rgb(255, 255, 255);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 24pt;
+    padding: 10px;
+}
+
+.header img {
+    text-align: center;
+    height: 40px;
+    margin: 0 8px 0 8px;
+}
+
+#basemapStyles {
+    width: 250px;
+    padding: 10px;
+}

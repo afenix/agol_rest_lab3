@@ -1,1 +1,1 @@
-# agol-test
+# arcgis-js-basic

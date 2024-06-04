@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcGIS Maps SDK JS</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/dark/main.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://js.arcgis.com/4.29/"></script>
+  <script type="module"
+    src="https://js.arcgis.com/calcite-components/2.5.1/calcite.esm.js"></script>
+  <link rel="stylesheet" type="text/css"
+    href="https://js.arcgis.com/calcite-components/2.5.1/calcite.css" />
+
+</head>
+
+<body>
+  <div class="header"><img
+      src="https://d29fhpw069ctt2.cloudfront.net/icon/image/39024/preview.png" />Explore Unique
+    ArcGIS Basemaps!</div>
+  <div id="viewDiv"></div>
+
+  <!-- Create a HTML div element with a calcite label and combobox component with the basemap styles -->
+  <div id="basemapStyles" class="esri-widget">
+    <calcite-label>Basemap style</calcite-label>
+    <calcite-combobox id="styleCombobox" selection-mode="single" clear-disabled>
+      <calcite-combobox-item value="arcgis-nova" text-label="ArcGIS Nova"
+        selected></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-colored-pencil"
+        text-label="ArcGIS Colored Pencil"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-midcentury"
+        text-label="ArcGIS Mid-Century"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-modern-antique"
+        text-label="ArcGIS Modern Antique"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-newspaper"
+        text-label="ArcGIS Newspaper"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-human-geography-dark""
+          text-label=" ArcGIS Human Geography Dark"></calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+
+  <!-- Load the script.js file. -->
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
