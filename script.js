@@ -79,7 +79,8 @@ require([
     // Stylize the point graphic
     const simpleMarkerSymbol = {
         type: "simple-marker",
-        color: [0, 0, 139],  // Color of blues rock
+        style: "square",
+        color: [230, 207, 167], // dark yellow
         outline: {
             color: [255, 255, 255], // White  
             width: 1
