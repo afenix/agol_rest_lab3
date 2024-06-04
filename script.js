@@ -4,8 +4,10 @@ require([
     "esri/views/MapView",
     "esri/config",
     "esri/widgets/Locate",
-    "esri/widgets/Search"
-], function (Map, MapView, esriConfig, Locate, Search) {
+    "esri/widgets/Search",
+    "esri/Graphic",
+    "esri/layers/GraphicsLayer"
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer) {
 
     // Configure the ArcGIS API key
     esriConfig.apiKey = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
@@ -62,6 +64,36 @@ require([
         position: "top-left",
         index: 0
     });
+
+    // Add a graphics layer to the map
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+
+    // Create a point graphic at the Portland Art Museum
+    const first_home = {
+        type: "point",
+        longitude: -122.6908,
+        latitude: 45.5279
+    };
+
+    // Stylize the point graphic
+    const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [0, 0, 139],  // Color of blues rock
+        outline: {
+            color: [255, 255, 255], // White  
+            width: 1
+        }
+    };
+
+    // Add the style and the geometry to the graphics layer
+    const pointGraphic = new Graphic({
+        geometry: first_home,
+        symbol: simpleMarkerSymbol
+    });
+
+    // Add the point graphic to the graphics layer
+    graphicsLayer.add(pointGraphic);
 
 
     // Wait for the map view to load
