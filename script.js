@@ -181,9 +181,18 @@ require([
     graphicsLayer.add(polygonGraphic);
 
 
-    // Add a feature layer to the map from Living Atlas
+    // Define a pop-up for usaeduLayer
+    const popup_natl_bridges = {
+        "title": "<b>Bridge Name: {BRIDGE_NAME}</b>, {STATE}",
+        "content": "This bridge is in <b>{BRIDGE_CONDITION_FULL}</b> condition. It was built in <b> {YEAR_BUILT_FORMATTED}</b>, making it <b>{BRIDGE_AGE}</b> years old and supports, on average, <b>{ADT_029}</b> crossings a day."
+    }
+
+    // Add a feature layer to the map from AGOL's Living Atlas
     const bridge_inventory = new FeatureLayer({
-        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/National_Bridge_Inventory_v1/FeatureServer",
+        url: "https://services3.arcgis.com/88ZQImArDzAVfCZ9/arcgis/rest/services/experience_builder_bridges_data/FeatureServer",
+        // Add popupTemplate to the feature layer
+        outFields: ["BRIDGE_NAME", "BRIDGE_CONDITION", "YEAR_BUILT_FORMATTED", "BRIDGE_AGE", "BRIDGE_CONDITION_FULL"],
+        popupTemplate: popup_natl_bridges
     });
 
     // Add the feature layer to the map
