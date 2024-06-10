@@ -9,8 +9,9 @@ require([
     "esri/layers/GraphicsLayer",
     "esri/geometry/Polyline",
     "esri/geometry/Polygon",
-    "esri/layers/FeatureLayer"
-], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
+    "esri/layers/FeatureLayer",
+    "esri/renderers/SimpleRenderer"
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer) {
 
     const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
 
@@ -153,6 +154,7 @@ require([
         ]
     ];
 
+
     // Create the polygon geometry
     const polygon = new Polygon({
         hasZ: false,
@@ -195,8 +197,31 @@ require([
         popupTemplate: popup_natl_bridges
     });
 
-    // Add the feature layer to the map
+    // Add the bridge feature layer to the map
     map.add(bridge_inventory);
+
+    // Create a simple picture marker symbol for the airports
+    const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+            "type": "picture-marker",
+            "url": "https://github.com/afenix/agol-test/blob/main/local_airport_24dp.png",
+            "width": "18px",
+            "height": "18px"
+        }
+    }
+
+    // Add AGOL hosted feature layer of US airports to the map
+    const us_airports = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Fenix/FeatureServer",
+        // Add airport symbol renderer to the feature layer
+        renderer: airportRenderer
+    });
+
+    // Add the us_airports feature layer to the map
+    map.add(us_airports);
+
+
 
     // Wait for the map view to load
     view.when(function () {
