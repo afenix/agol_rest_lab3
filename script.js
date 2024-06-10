@@ -166,7 +166,6 @@ require([
     // Create a simple fill symbol for the polygon
     const fillSymbol = {
         type: "simple-fill",
-        color: [34, 139, 34, 0.4], // Forest green color with transparency
         outline: {
             color: [255, 255, 255],
             width: 1
@@ -206,7 +205,7 @@ require([
         "type": "simple",
         "symbol": {
             "type": "picture-marker",
-            "url": "https://github.com/afenix/agol-test/blob/main/local_airport_24dp.png",
+            "url": "https://raw.githubusercontent.com/afenix/agol-test/main/local_airport_24dp.png",
             "width": "18px",
             "height": "18px"
         }
@@ -216,7 +215,8 @@ require([
     const us_airports = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Fenix/FeatureServer",
         // Add airport symbol renderer to the feature layer
-        renderer: airportRenderer
+        renderer: airportRenderer,
+        definitionExpression: "Fac_Type = 'AIRPORT'" // Only show airports using sql to filter
     });
 
     // Add the us_airports feature layer to the map
