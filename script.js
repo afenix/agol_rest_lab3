@@ -194,7 +194,8 @@ require([
         url: "https://services3.arcgis.com/88ZQImArDzAVfCZ9/arcgis/rest/services/experience_builder_bridges_data/FeatureServer",
         // Add popupTemplate to the feature layer
         outFields: ["BRIDGE_NAME", "BRIDGE_CONDITION", "YEAR_BUILT_FORMATTED", "BRIDGE_AGE", "BRIDGE_CONDITION_FULL"],
-        popupTemplate: popup_natl_bridges
+        popupTemplate: popup_natl_bridges,
+        definitionExpression: "(BRIDGE_CONDITION_FULL = 'poor' OR BRIDGE_CONDITION_FULL = 'fair') AND ADT_029 > 100000" // Only show bridges that are in poor condition with high traffic using SQL filter
     });
 
     // Add the bridge feature layer to the map
