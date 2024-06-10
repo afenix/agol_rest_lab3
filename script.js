@@ -144,12 +144,12 @@ require([
 
     // Define the polygon rings for the Portland City Limits
     const rings = [
-        [ // first ring
-            [-122.6765, 45.5231], // Vertice 1
-            [-122.6760, 45.5235], // Vertice 2
-            [-122.6755, 45.5230], // Vertice 3
-            [-122.6760, 45.5225], // Vertice 4
-            [-122.6765, 45.5231]  // Closing the ring (same as Vertice 1)
+        [ // First ring (generalized outline)
+            [-122.7372, 45.5886], // Northwest corner
+            [-122.5302, 45.5886], // Northeast corner
+            [-122.5302, 45.4306], // Southeast corner
+            [-122.7372, 45.4306], // Southwest corner
+            [-122.7372, 45.5886]  // Closing the ring (same as Northwest corner)
         ]
     ];
 
@@ -164,7 +164,7 @@ require([
     // Create a simple fill symbol for the polygon
     const fillSymbol = {
         type: "simple-fill",
-        color: [227, 139, 79, 0.8], // Orange fill color with transparency
+        color: [34, 139, 34, 0.4], // Forest green color with transparency
         outline: {
             color: [255, 255, 255],
             width: 1
