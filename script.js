@@ -93,18 +93,18 @@ require([
     // Create a popup template for the point graphic
     const popupTemplate = {
         title: "{Name}",
-        content: `<img src="https://insightpestnorthwest.com/wp-content/uploads/2020/08/St-Johns-Bridge.jpg" alt="St. Johns Bridge" style="width:100%;height:auto;" /><br>{Description}`
+        content: `<img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Lacey_V._Murrow_Bridge_construction.jpg" alt="Lacey V. Murrow Memorial Bridge" style="width:100%;height:auto;" /><br>{Description}`
     };
 
     // Create an attributes object for the point graphic
     const attributes = {
-        Name: "St. Johns Bridge",
-        Description: "An iconic steel suspension bridge spanning the Willamette River in Portland. Completed in 1931, it's known for its Gothic Revival towers and distinctive green color. A beloved landmark and popular spot for walkers and cyclists."
-    }
+        Name: "Lacey V. Murrow Memorial Bridge",
+        Description: "The Lacey V. Murrow Memorial Bridge is a floating bridge in the Seattle metropolitan area of the U.S. state of Washington. It is one of the Interstate 90 floating bridges that carries the eastbound lanes of Interstate 90 across Lake Washington from Seattle to Mercer Island. Westbound traffic is carried by the adjacent Homer M. Hadley Memorial Bridge. ~ <a href='https://en.wikipedia.org/wiki/Lacey_V._Murrow_Memorial_Bridge' target='_blank'>https://en.wikipedia.org/wiki/Lacey_V._Murrow_Memorial_Bridge</a>"
+    };
 
     // Add the style and the geometry to the graphics layer
     const pointGraphic = new Graphic({
-        geometry: st_johns_bridge,
+        geometry: LaceyVMurrowBridge,
         symbol: simpleMarkerSymbol,
         attributes: attributes,
         popupTemplate: popupTemplate
@@ -113,11 +113,11 @@ require([
     // Add the point graphic to the graphics layer
     graphicsLayer.add(pointGraphic);
 
-    // Add a polyline that highlights the Burnside Bridge
+    // Add a line that covers Lacey V. Murrow Memorial Bridge Path
     let paths = [
-        [ // Burnside Bridge Path
-            [-122.67039543081786, 45.52318900563338], // West end of Burnside Bridge
-            [-122.66539491991392, 45.523072223490665]  // East end of Burnside Bridge
+        [
+            [-122.286080, 47.590134],  // West end of Lacey V. Murrow Bridge
+            [-122.253894, 47.589528]   // East end of Lacey V. Murrow Bridge
         ]
     ];
 
@@ -143,14 +143,14 @@ require([
     // Add the polyline graphic to the map's graphics layer
     graphicsLayer.add(polylineGraphic);
 
-    // Define the polygon rings for the Portland City Limits
+    // Define the polygon rings for the Lacey V. Murrow Memorial Bridge
     const rings = [
-        [ // First ring (generalized outline)
-            [-122.7372, 45.5886], // Northwest corner
-            [-122.5302, 45.5886], // Northeast corner
-            [-122.5302, 45.4306], // Southeast corner
-            [-122.7372, 45.4306], // Southwest corner
-            [-122.7372, 45.5886]  // Closing the ring (same as Northwest corner)
+        [ // First ring (square around the bridge)
+            [-122.288080, 47.592134],  // Northwest corner (slightly adjusted for buffer)
+            [-122.251894, 47.592134],  // Northeast corner
+            [-122.251894, 47.587528],  // Southeast corner
+            [-122.288080, 47.587528],  // Southwest corner
+            [-122.288080, 47.592134]   // Close the ring (same as Northwest corner)
         ]
     ];
 
