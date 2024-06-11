@@ -182,19 +182,77 @@ require([
     graphicsLayer.add(polygonGraphic);
 
 
-    // Define a pop-up for usaeduLayer
-    const popup_natl_bridges = {
+    // Define a pop-up for bridges
+    const popupNatlBridges = {
         "title": "<b>Bridge Name: {BRIDGE_NAME}</b>, {STATE}",
-        "content": "This bridge is in <b>{BRIDGE_CONDITION_FULL}</b> condition. It was built in <b> {YEAR_BUILT_FORMATTED}</b>, making it <b>{BRIDGE_AGE}</b> years old and supports, on average, <b>{ADT_029}</b> crossings a day."
+        "content": "This bridge is in <b>{BRIDGE_CONDITION_FULL}</b> condition. It was built in <b> {YEAR_BUILT_FORMATTED}</b>, making it <b>{BRIDGE_AGE}</b> years old and supports, on average, <b>{ADT_029}</b> crossings a day.{BRIDGE_CONDITION}"
     }
 
+    // Define a UniqueValueRenderer for bridges based on their condition (Poor or Fair)
+    let bridgeRenderer = {
+        type: "unique-value",  // autocasts as new UniqueValueRenderer()
+        field: "BRIDGE_CONDITION",
+        uniqueValueInfos: [
+            {
+                value: "G",
+                symbol: {
+                    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                    size: 10,
+                    color: "#93c47d",  // Green for good condition
+                    outline: {
+                        width: 0.5,
+                        color: "white"
+                    }
+                },
+                label: "Good Condition"  // label for the legend
+            },
+            {
+                value: "F",  // Value for fair condition
+                symbol: {
+                    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                    size: 15,
+                    color: "#f6b26b",  // Light orange for fair condition
+                    outline: {
+                        width: 0.5,
+                        color: "white"
+                    }
+                },
+                label: "Fair Condition"  // label for the legend
+            },
+            {
+                value: "P",
+                symbol: {
+                    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                    size: 20,
+                    color: "#e06666",  // Light red for poor condition
+                    outline: {
+                        width: 0.5,
+                        color: "white"
+                    }
+                },
+                label: "Poor Condition"  // label for the legend
+            },
+        ],
+        defaultSymbol: {
+            type: "simple-marker",  // Symbol for any value not specified
+            size: 6,
+            color: "gray",  // Default gray color for other conditions
+            outline: {
+                width: 0.5,
+                color: "white"
+            }
+        },
+        defaultLabel: "Other Condition"  // Optional: label for the legend for unspecified conditions
+    };
+
+
     // Add a feature layer to the map from AGOL's Living Atlas
-    const bridge_inventory = new FeatureLayer({
+    const bridgeInventory = new FeatureLayer({
         url: "https://services3.arcgis.com/88ZQImArDzAVfCZ9/arcgis/rest/services/experience_builder_bridges_data/FeatureServer",
-        // Add popupTemplate to the feature layer
-        outFields: ["BRIDGE_NAME", "BRIDGE_CONDITION", "YEAR_BUILT_FORMATTED", "BRIDGE_AGE", "BRIDGE_CONDITION_FULL"],
-        popupTemplate: popup_natl_bridges,
-        definitionExpression: "(BRIDGE_CONDITION_FULL = 'poor' OR BRIDGE_CONDITION_FULL = 'fair') AND ADT_029 > 100000" // Only show bridges that are in poor condition with high traffic using SQL filter
+        outFields: ["BRIDGE_NAME", "BRIDGE_CONDITION_FULL", "BRIDGE_CONDITION", "YEAR_BUILT_FORMATTED", "BRIDGE_AGE", "BRIDGE_CONDITION_FULL"],
+        popupTemplate: popupNatlBridges,   // Add popupTemplate to the feature layer
+        renderer: bridgeRenderer,
+        definitionExpression: "ADT_029 > 100000" // Only show bridges with high (>100,000 daily crossings) traffic using SQL filter
     });
 
     // Add the bridge feature layer to the map
