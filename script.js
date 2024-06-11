@@ -264,17 +264,24 @@ require([
         "symbol": {
             "type": "picture-marker",
             "url": "https://raw.githubusercontent.com/afenix/agol-test/main/local_airport_24dp.png",
+    // Create a simple picture marker symbol for heliport airports
+    const heliportRenderer = {
+        "type": "simple",
+        "symbol": {
+            "type": "picture-marker",
+            "url": "https://raw.githubusercontent.com/afenix/agol-test/main/helicopter-icon-21952.png",
             "width": "18px",
             "height": "18px"
         }
     }
 
-    // Add AGOL hosted feature layer of US airports to the map
-    const us_airports = new FeatureLayer({
+    // Add AGOL hosted feature layer of US airports, filtering out only helicopters to the map
+    const usaHeliports = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Fenix/FeatureServer",
         // Add airport symbol renderer to the feature layer
-        renderer: airportRenderer,
-        definitionExpression: "Fac_Type = 'AIRPORT'" // Only show airports using sql to filter
+        renderer: heliportRenderer,
+        definitionExpression: "Fac_Type = 'HELIPORT'", // Only show heliports using sql to filter
+        labelingInfo: [airportLabels] // Add label to the airports
     });
 
     // Add the us_airports feature layer to the map
