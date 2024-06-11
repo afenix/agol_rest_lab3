@@ -18,16 +18,16 @@ require([
     // Configure the ArcGIS API key
     esriConfig.apiKey = token;
 
-    // Create a map using Esri's topographic basemap
+    // Create a map and set the default base map to Esri's midcentury basemap
     const map = new Map({
-        basemap: "arcgis-nova"
+        basemap: "arcgis-topographic"
     });
 
-    // Create a map view   
+    // Create a map view centered on Seattle, WA
     const view = new MapView({
         map: map,
-        center: [-122.6784, 45.5152], // Longitude, latitude of Portland, OR
-        zoom: 10, // Zoom in to Portland City Limits 
+        center: [-122.302439, 47.529974], // Longitude, latitude of Seattle, WA
+        zoom: 11,
         container: "viewDiv",
         constraints: {
             snapToZoom: false
@@ -43,8 +43,8 @@ require([
     const basemapStylesDiv = document.getElementById("basemapStyles");
     view.ui.add(basemapStylesDiv, "top-right");
 
-    //Add an event listener to watch for changes on the combobox. When the combobox value has changed, 
-    //call the updateBasemapStyle function to update the basemap style.
+    // Add an event listener to watch for changes on the combobox. When the combobox value has changed, 
+    // call the updateBasemapStyle function to update the basemap style.
     const styleCombobox = document.getElementById("styleCombobox");
     styleCombobox.addEventListener("calciteComboboxChange", (event) => {
         updateBasemapStyle(event.target.value);
