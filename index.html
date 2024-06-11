@@ -17,27 +17,27 @@
 </head>
 
 <body>
-  <div class="header"><img
-      src="https://d29fhpw069ctt2.cloudfront.net/icon/image/39024/preview.png" />Explore Unique
-    ArcGIS Basemaps!</div>
+  <div class="header">
+    <div class="header-text">Navigating Seattle: Bridge Integrity and Air Transport</div>
+  </div>
   <div id="viewDiv"></div>
 
   <!-- Create a HTML div element with a calcite label and combobox component with the basemap styles -->
   <div id="basemapStyles" class="esri-widget">
     <calcite-label>Basemap style</calcite-label>
     <calcite-combobox id="styleCombobox" selection-mode="single" clear-disabled>
-      <calcite-combobox-item value="arcgis-nova" text-label="ArcGIS Nova"
+      <calcite-combobox-item value="arcgis-topographic" text-label="ArcGIS Topographic"
         selected></calcite-combobox-item>
-      <calcite-combobox-item value="arcgis-colored-pencil"
-        text-label="ArcGIS Colored Pencil"></calcite-combobox-item>
-      <calcite-combobox-item value="arcgis-midcentury"
-        text-label="ArcGIS Mid-Century"></calcite-combobox-item>
-      <calcite-combobox-item value="arcgis-modern-antique"
-        text-label="ArcGIS Modern Antique"></calcite-combobox-item>
-      <calcite-combobox-item value="arcgis-newspaper"
-        text-label="ArcGIS Newspaper"></calcite-combobox-item>
-      <calcite-combobox-item value="arcgis-human-geography-dark""
-          text-label=" ArcGIS Human Geography Dark"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-imagery-standard"
+        text-label=" ArcGIS Imagery Standard"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-imagery-labels"
+        text-label="ArcGIS Imagery Labels"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-terrain"
+        text-label="ArcGIS Terrain"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-streets-relief"
+        text-label="ArcGIS Streets Relief"></calcite-combobox-item>
+      <calcite-combobox-item value="arcgis-human-geography"
+        text-label=" ArcGIS Human Geography"></calcite-combobox-item>
     </calcite-combobox>
   </div>
 
