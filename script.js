@@ -10,8 +10,10 @@ require([
     "esri/geometry/Polyline",
     "esri/geometry/Polygon",
     "esri/layers/FeatureLayer",
-    "esri/renderers/SimpleRenderer"
-], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer) {
+    "esri/renderers/SimpleRenderer",
+    "esri/renderers/support/UniqueValueInfo",
+    "esri/widgets/Legend"
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend) {
 
     const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
 
@@ -75,11 +77,11 @@ require([
     const graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
 
-    // Create a point graphic at the Portland Art Museum
-    const st_johns_bridge = {
+    // Create a point graphic at the Portland A
+    const LaceyVMurrowBridge = {
         type: "point",
-        longitude: -122.76477,
-        latitude: 45.58508
+        longitude: -122.267357,
+        latitude: 47.591665
     };
 
     // Stylize the point graphic
@@ -256,14 +258,52 @@ require([
     });
 
     // Add the bridge feature layer to the map
-    map.add(bridge_inventory);
+    map.add(bridgeInventory);
 
     // Create a simple picture marker symbol for the airports
+    // attribution: https://www.flaticon.com/free-icons/travel Travel icons created by Freepik - Flaticon
     const airportRenderer = {
         "type": "simple",
         "symbol": {
             "type": "picture-marker",
-            "url": "https://raw.githubusercontent.com/afenix/agol-test/main/local_airport_24dp.png",
+            "url": "https://raw.githubusercontent.com/afenix/agol-test/main/air-transport.png",
+            "width": "25px",
+            "height": "25px"
+        }
+    }
+
+    //const to make the airport labels
+    const airportLabels = {
+        symbol: {
+            type: "text",
+            color: "#000000",
+            haloColor: "#FFFFFF",
+            haloSize: "1px",
+            font: {
+                size: "12px",
+                family: "Noto Sans",
+                style: "italic",
+                weight: "normal"
+            }
+        },
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+            expression: "$feature.Fac_Name"
+        }
+    };
+
+    // Add AGOL hosted feature layer of US airports to the map
+    const usaAirports = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_Fenix/FeatureServer",
+        // Add airport symbol renderer to the feature layer
+        renderer: airportRenderer,
+        definitionExpression: "Fac_Type = 'AIRPORT'", // Only show airports using sql to filter
+        labelingInfo: [airportLabels] // Add label to the airports
+    });
+
+    // Add the usaAirports feature layer to the map
+    map.add(usaAirports);
+
     // Create a simple picture marker symbol for heliport airports
     const heliportRenderer = {
         "type": "simple",
@@ -284,8 +324,31 @@ require([
         labelingInfo: [airportLabels] // Add label to the airports
     });
 
-    // Add the us_airports feature layer to the map
-    map.add(us_airports);
+    // Add the usaHeliports feature layer to the map
+    map.add(usaHeliports);
+
+    // Create a legend widget
+    const legend = new Legend({
+        view: view,
+        panelStyle: "classic", // or another light style
+        layerInfos: [
+            {
+                layer: usaHeliports,
+                title: "Heliports"
+            },
+            {
+                layer: usaAirports,
+                title: "Airports"
+            },
+            {
+                layer: bridgeInventory,
+                title: "Bridge Conditions"
+            },
+        ]
+    });
+
+    // Add the legend to the map's UI
+    view.ui.add(legend, "bottom-right");
 
 
 
