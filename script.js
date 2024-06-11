@@ -187,7 +187,7 @@ require([
     // Define a pop-up for bridges
     const popupNatlBridges = {
         "title": "<b>Bridge Name: {BRIDGE_NAME}</b>, {STATE}",
-        "content": "This bridge is in <b>{BRIDGE_CONDITION_FULL}</b> condition. It was built in <b> {YEAR_BUILT_FORMATTED}</b>, making it <b>{BRIDGE_AGE}</b> years old and supports, on average, <b>{ADT_029}</b> crossings a day.{BRIDGE_CONDITION}"
+        "content": "This bridge is in <b>{BRIDGE_CONDITION_FULL}</b> condition. It was built in <b> {YEAR_BUILT_FORMATTED}</b>, making it <b>{BRIDGE_AGE}</b> years old and supports, on average, <b>{ADT_029}</b> crossings a day."
     }
 
     // Define a UniqueValueRenderer for bridges based on their condition (Poor or Fair)
