@@ -12,8 +12,9 @@ require([
     "esri/layers/FeatureLayer",
     "esri/renderers/SimpleRenderer",
     "esri/renderers/support/UniqueValueInfo",
-    "esri/widgets/Legend"
-], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend) {
+    "esri/widgets/Legend",
+    'esri/widgets/Editor'
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend, Editor) {
 
     const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
 
@@ -326,6 +327,33 @@ require([
 
     // Add the usaHeliports feature layer to the map
     map.add(usaHeliports);
+
+    //adding the const for the feature layer
+    const myAirports = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/AAF_Airports/FeatureServer",
+
+        //adding the popup here
+        outFields: ["AirportCode"],
+
+    });
+
+    //adding the editable myAirport feature layer to the map
+    map.add(myAirports);
+
+    // Set the point layer's LayerInfo
+    const pointInfos = {
+        layer: myAirports
+    }
+
+    // Begin Editor constructor
+    const editor = new Editor({
+        view: view,
+        layerInfos: [pointInfos]
+    }); // End Editor constructor
+
+    // Add the widget to the view
+    view.ui.add(editor, "bottom-left");
+
 
     // Create a legend widget
     const legend = new Legend({
