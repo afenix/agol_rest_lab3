@@ -1,1 +1,1 @@
-# Code for Module 1, Lesson 2 for GEOG 576.
+# This repo holds lab work for Module 2, Lesson 3 for GEOG 576
