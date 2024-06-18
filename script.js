@@ -13,7 +13,7 @@ require([
     "esri/renderers/SimpleRenderer",
     "esri/renderers/support/UniqueValueInfo",
     "esri/widgets/Legend",
-    'esri/widgets/Editor'
+    "esri/widgets/Editor",
 ], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend, Editor) {
 
     const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
@@ -328,13 +328,47 @@ require([
     // Add the usaHeliports feature layer to the map
     map.add(usaHeliports);
 
+    // Create a simple picture marker symbol for newly added airports
+    // attribution: Google Icons
+    const myAirportRenderer = {
+        "type": "simple",
+        "symbol": {
+            "type": "picture-marker",
+            "url": "https://raw.githubusercontent.com/afenix/agol_rest_lab3/main/flight_24dp_FILL0_wght400_GRAD0_opsz24.png",
+            "width": "25px",
+            "height": "25px"
+        }
+    }
+
+    // Create custom labels for editable airports points
+    const myAirportLabels = {
+        symbol: {
+            type: "text",
+            color: "#9F2B68",
+            haloColor: "#FFFFFF",
+            haloSize: "1px",
+            font: {
+                size: "14px",
+                family: "Noto Sans",
+                style: "bold",
+                weight: "normal"
+            }
+        },
+        labelPlacement: "below-center",
+        labelExpressionInfo: {
+            expression: "$feature.AirportCode"
+        }
+    };
+
     //adding the const for the feature layer
     const myAirports = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/AAF_Airports/FeatureServer",
-
-        //adding the popup here
+        // Add new airport symbol renderer to the feature layer
+        renderer: myAirportRenderer,
+        // Add the popup 
         outFields: ["AirportCode"],
-
+        labelingInfo: [myAirportLabels], // Add label to editable airports
+        title: "User-Defined Airports" // Custom title for the layer
     });
 
     //adding the editable myAirport feature layer to the map
