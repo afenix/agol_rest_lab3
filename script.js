@@ -14,7 +14,8 @@ require([
     "esri/renderers/support/UniqueValueInfo",
     "esri/widgets/Legend",
     "esri/widgets/Editor",
-], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend, Editor) {
+    "esri/widgets/LayerList"
+], function (Map, MapView, esriConfig, Locate, Search, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, SimpleRenderer, UniqueValueInfo, Legend, Editor, LayerList) {
 
     const token = "AAPK83337061f79941cdbcba8ea16add7f1csWFIvmrzXU7TvesGSEbfGqhfxRivSP37KmfuCDfiec8kVrxhDCre40EzzsvFCLSB";
 
@@ -255,7 +256,8 @@ require([
         outFields: ["BRIDGE_NAME", "BRIDGE_CONDITION_FULL", "BRIDGE_CONDITION", "YEAR_BUILT_FORMATTED", "BRIDGE_AGE", "BRIDGE_CONDITION_FULL"],
         popupTemplate: popupNatlBridges,   // Add popupTemplate to the feature layer
         renderer: bridgeRenderer,
-        definitionExpression: "ADT_029 > 100000" // Only show bridges with high (>100,000 daily crossings) traffic using SQL filter
+        definitionExpression: "ADT_029 > 100000", // Only show bridges with high (>100,000 daily crossings) traffic using SQL filter
+        title: "High-Traffic Bridge Conditions" // Custom title for the layer
     });
 
     // Add the bridge feature layer to the map
@@ -299,7 +301,8 @@ require([
         // Add airport symbol renderer to the feature layer
         renderer: airportRenderer,
         definitionExpression: "Fac_Type = 'AIRPORT'", // Only show airports using sql to filter
-        labelingInfo: [airportLabels] // Add label to the airports
+        labelingInfo: [airportLabels], // Add label to the airports
+        title: "Major Airports" // Custom title for the layer
     });
 
     // Add the usaAirports feature layer to the map
@@ -322,7 +325,8 @@ require([
         // Add airport symbol renderer to the feature layer
         renderer: heliportRenderer,
         definitionExpression: "Fac_Type = 'HELIPORT'", // Only show heliports using sql to filter
-        labelingInfo: [airportLabels] // Add label to the airports
+        labelingInfo: [airportLabels], // Add label to the airports
+        title: "Heliports"
     });
 
     // Add the usaHeliports feature layer to the map
@@ -388,30 +392,31 @@ require([
     // Add the widget to the view
     view.ui.add(editor, "bottom-left");
 
+    // Add the LayerList widget so map layers can be hidden/shown, and add legends for each layer
+    view.when(() => {
+        const layerList = new LayerList({
+            view: view,
+            // Add function to the LayerList configuration, to call each layer item as it's created in the list.
+            listItemCreatedFunction: (event) => {
+                const item = event.item;
 
-    // Create a legend widget
-    const legend = new Legend({
-        view: view,
-        panelStyle: "classic", // or another light style
-        layerInfos: [
-            {
-                layer: usaHeliports,
-                title: "Heliports"
-            },
-            {
-                layer: usaAirports,
-                title: "Airports"
-            },
-            {
-                layer: bridgeInventory,
-                title: "Bridge Conditions"
-            },
-        ]
+                // Exclude group layers or other layers you don't want legends for
+                if (item.layer.type !== "group") {
+                    item.panel = {
+                        content: new Legend({
+                            view: view,
+                            // Only include the current layer in the layerInfos array:
+                            layerInfos: [{ layer: item.layer, title: item.layer.title }],
+                            style: "classic" // or another style you prefer
+                        }),
+                        open: false // Start with the legend panel closed
+                    };
+                }
+            }
+        });
+
+        view.ui.add(layerList, "bottom-right");
     });
-
-    // Add the legend to the map's UI
-    view.ui.add(legend, "bottom-right");
-
 
 
     // Wait for the map view to load
